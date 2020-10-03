@@ -31,14 +31,14 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-user"></i></span>
                                 </div>
-                                <input type="text" id="name" name="name" class="form-control" placeholder="Full Name">
+                                <input type="text" id="name" onkeypress="validateName()" name="name" class="form-control" placeholder="Full Name">
 
                             </div>
                             <div class="input-group form-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-user"></i></span>
                                 </div>
-                                <input type="text" id="contact" name="contact" class="form-control" placeholder="Contact Number">
+                                <input type="text" id="contact" name="contact" onkeypress="onClickValidationContactNumber()" class="form-control" placeholder="Contact Number">
 
                             </div>
                             <div class="input-group form-group">
@@ -84,13 +84,95 @@
                 var password = $('#password').val();
 
                 if (email == "" || name == "" || contact == "" || username == "" || password == "") {
-                    
+
                     alert("Please fill form");
+
+                } else if (ValidateEmail() || contactValidation()) {
 
                 } else {
                     alert("Registration successfull");
                 }
 
+            }
+
+            function ValidateEmail() {
+
+                if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test($('#email').val()))
+                {
+                    return false;
+                }
+                alert("Invalid Email Address");
+                document.getElementById("email").select();
+                return true;
+
+            }
+
+            function onClickValidationContactNumber(evt) {
+                var theEvent = evt || window.event;
+                // Handle paste
+                if (theEvent.type === 'paste') {
+                    key = event.clipboardData.getData('text/plain');
+                } else {
+                    // Handle key press
+                    var key = theEvent.keyCode || theEvent.which;
+                    key = String.fromCharCode(key);
+                }
+                var regex = /[0-9]/;
+                if (!regex.test(key)) {
+                    theEvent.returnValue = false;
+                    if (theEvent.preventDefault)
+                        theEvent.preventDefault();
+                }
+
+            }
+
+            function validateNumber(evt) {
+                var theEvent = evt || window.event;
+                // Handle paste
+                if (theEvent.type === 'paste') {
+                    key = event.clipboardData.getData('text/plain');
+                } else {
+                    // Handle key press
+                    var key = theEvent.keyCode || theEvent.which;
+                    key = String.fromCharCode(key);
+                }
+                var regex = /[0-9]|\./;
+                if (!regex.test(key)) {
+                    theEvent.returnValue = false;
+                    if (theEvent.preventDefault)
+                        theEvent.preventDefault();
+                }
+
+            }
+
+            function validateName(evt) {
+                var theEvent = evt || window.event;
+                // Handle paste
+                if (theEvent.type === 'paste') {
+                    key = event.clipboardData.getData('text/plain');
+                } else {
+                    // Handle key press
+                    var key = theEvent.keyCode || theEvent.which;
+                    key = String.fromCharCode(key);
+                }
+                var regex = /^[a-zA-Z\s]+$/;
+                if (!regex.test(key)) {
+                    theEvent.returnValue = false;
+                    if (theEvent.preventDefault)
+                        theEvent.preventDefault();
+                }
+
+            }
+
+            function contactValidation() {
+                var contactNo = $('#contact').val();
+                if (contactNo.length === 10) {
+                    return false;
+                } else {
+                    alert("Invalid Contact Number");
+                    document.getElementById("contact").select();
+                    return true;
+                }
             }
         </script>
     </body>
